@@ -1,15 +1,13 @@
 -module({{appid}}_sup).
--behaviour(esupervisor).
--include_lib("esupervisor/include/esupervisor.hrl").
-
--export([init/1]).
+-behaviour(supervisor).
 -export([start_link/0]).
+-export([init/1]).
 
 start_link() ->
-    esupervisor:start_link({local, ?MODULE}, ?MODULE, []).
+	supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-	#one_for_one {
-		id = {{appid}}_sup,
-		children = []
-	}.
+	%{Name, {Module, StartFunc, Args}, permanent, 5000, supervisor, [Module]}
+	ChildSpecs = [
+	],
+	{ok, { {one_for_one, 5, 60}, ChildSpecs}}.

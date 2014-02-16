@@ -1,13 +1,10 @@
 {application, {{appid}}, [
 	{description, ""},
-	{vsn, "1"},
-	{registered, []},
+	{vsn, "{{version}}"},
+	{registered, [{{appid}}_sup]},
 	{applications, [
 		kernel,
-		stdlib,
-		lager,
-		esupervisor,
-		emisc
+		stdlib
 	]},
 	{mod, { {{appid}}, []}},
 	{env, []}

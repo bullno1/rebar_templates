@@ -1,11 +1,15 @@
-{variables, [{appid, "myapp"}]}.
+{variables, [
+	{appid, "myapp"},
+	{version, "0.0.0"}
+]}.
 {file, "shared/Makefile", "Makefile"}.
+{file, "shared/rebar.mk", "rebar.mk"}.
 {file, "shared/gitignore", ".gitignore"}.
+{file, "shared/rebar.config", "rebar.config"}.
+{file, "shared/shell.sh", "shell.sh"}.
 {template, "active-app/myapp.app.src", "src/{{appid}}.app.src"}.
 {template, "active-app/myapp.erl", "src/{{appid}}.erl"}.
 {template, "active-app/myapp_sup.erl", "src/{{appid}}_sup.erl"}.
-{template, "active-app/start_dev.sh", "start_dev.sh"}.
-{file, "active-app/rebar.config", "rebar.config"}.
-{file, "active-app/shell.sh", "shell.sh"}.
-{chmod, 33261, "start_dev.sh"}.
+{template, "active-app/start.sh", "start.sh"}.
+{chmod, 33261, "start.sh"}.
 {chmod, 33261, "shell.sh"}.
