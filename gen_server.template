@@ -1,0 +1,2 @@
+{variables, [{name, "my_gen_server"}]}.
+{template, "gen_server.erl", "src/{{name}}.erl"}.
