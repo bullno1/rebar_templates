@@ -1,0 +1,2 @@
+{variables, [{name, "my_supervisor"}]}.
+{template, "supervisor.erl", "src/{{name}}.erl"}.
