@@ -23,8 +23,8 @@ endif
 export REBAR
 export RELX
  
-.PHONY: all compile clean test dialyzer typer shell distclean pdf \
-        get-deps escript clean-common-test-data release devrel
+.PHONY: all compile clean test dialyzer typer distclean \
+        get-deps clean-common-test-data release
  
 all: compile
 
