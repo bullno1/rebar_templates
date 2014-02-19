@@ -66,7 +66,7 @@ $(PROJECT_PLT):
 dialyzer: compile $(PROJECT_PLT)
 	dialyzer --plt $(PROJECT_PLT) \
 	         --fullpath \
-			 $(DIALYZER_FLAGS) \
+	         $(DIALYZER_FLAGS) \
 	         -I $(CURDIR)/deps -pa $(CURDIR)/ebin --src src
  
 typer: compile
