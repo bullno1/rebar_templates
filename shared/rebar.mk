@@ -2,7 +2,7 @@ PLT_APPS ?= erts kernel stdlib
 DIALYZER_OPTS ?= -Werror_handling -Wrace_conditions -Wunmatched_returns
 
 REBAR ?= $(CURDIR)/rebar
-REBAR_URL ?= https://www.dropbox.com/s/9n7wfnrd8vd0kqv/rebar-2.2.0-R16B03
+REBAR_URL ?= https://github.com/rebar/rebar/releases/download/2.2.0/rebar
 
 RELX ?= $(CURDIR)/relx
 RELX_URL ?= https://github.com/erlware/relx/releases/download/v0.6.0/relx
