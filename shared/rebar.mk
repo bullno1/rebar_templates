@@ -19,19 +19,19 @@ ERL = $(shell which erl)
 ifeq ($(ERL),)
 $(error "Erlang not available on this system")
 endif
- 
+
 export REBAR
 export RELX
- 
+
 .PHONY: all compile clean test dialyzer typer distclean \
         get-deps clean-common-test-data release
- 
+
 all: compile
 
 get-deps: $(REBAR)
 	$(REBAR) get-deps
 	$(REBAR) compile
- 
+
 compile: $(REBAR)
 	$(REBAR) skip_deps=true compile
 
@@ -40,10 +40,10 @@ release: compile $(RELX)
 
 eunit: compile clean-common-test-data
 	$(REBAR) skip_deps=true eunit
- 
+
 ct: compile clean-common-test-data
 	$(REBAR) skip_deps=true ct
- 
+
 test: compile eunit ct
 
 define download
@@ -56,32 +56,32 @@ $(REBAR):
 
 $(RELX):
 	@$(call download,$(RELX),$(RELX_URL))
- 
+
 $(PROJECT_PLT):
 	@echo Building local plt at $(PROJECT_PLT)
 	@echo
 	dialyzer --output_plt $(PROJECT_PLT) --build_plt \
 	         --apps $(PLT_OTP_APPS) -r deps
- 
+
 dialyzer: compile $(PROJECT_PLT)
 	dialyzer --plt $(PROJECT_PLT) \
 	         --fullpath \
 	         $(DIALYZER_FLAGS) \
 	         -I $(CURDIR)/deps -pa $(CURDIR)/ebin --src src
- 
+
 typer: compile
 	typer --plt $(PROJECT_PLT) -r ./src
- 
+
 clean-common-test-data:
 # We have to do this because of the unique way we generate test
 # data. Without this rebar eunit gets very confused
 	- rm -rf $(CURDIR)/test/*_SUITE_data
- 
+
 clean: clean-common-test-data
 	- rm -rf $(CURDIR)/test/*.beam
 	- rm -rf $(CURDIR)/logs
 	$(REBAR) skip_deps=true clean
- 
+
 distclean: clean
 	- rm -rf $(PROJECT_PLT)
 	- rm -rvf $(CURDIR)/deps/*
