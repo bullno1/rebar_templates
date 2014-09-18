@@ -37,6 +37,11 @@ compile: $(REBAR)
 
 release: compile $(RELX)
 	$(RELX) $(RELX_OPTS)
+	rm -rf ./_rel/*/erts-*/include
+	rm -rf ./_rel/*/erts-*/lib
+	rm -rf ./_rel/*/erts-*/src
+	rm -rf ./_rel/*/erts-*/doc
+	rm -rf ./_rel/*/erts-*/man
 
 eunit: compile clean-common-test-data
 	$(REBAR) skip_deps=true eunit
