@@ -1,0 +1,2 @@
+{variables, [{name, "my_gen_event"}]}.
+{template, "gen_event.erl", "src/{{name}}.erl"}.
