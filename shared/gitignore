@@ -1,3 +1,4 @@
+/.build
 /.eunit
 /.rebar
 /.project_plt

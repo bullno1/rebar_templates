@@ -1,9 +1,9 @@
 {variables, [
 	{appid, "myapp"},
-	{version, "0.0.0"}
+	{version, "0.0.1"}
 ]}.
 {file, "shared/Makefile", "Makefile"}.
-{file, "shared/rebar.mk", "rebar.mk"}.
+{file, "shared/rebar.mk", "make/rebar.mk"}.
 {file, "shared/gitignore", ".gitignore"}.
 {file, "shared/rebar.config", "rebar.config"}.
 {file, "shared/shell.sh", "shell.sh"}.
