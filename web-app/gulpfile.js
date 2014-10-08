@@ -67,6 +67,6 @@ function writeBundle(b, name) {
 		.pipe(buffer())
 		.pipe(sourcemaps.init({loadMaps:true}))
 		.pipe(uglify())
-		.pipe(sourcemaps.write("./priv/www/js"))
+		.pipe(sourcemaps.write("./"))
 		.pipe(gulp.dest("./priv/www/js"));
 }
