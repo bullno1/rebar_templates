@@ -1,0 +1,14 @@
+{application, {{appid}}, [
+	{description, ""},
+	{vsn, "{{version}}"},
+	{registered, [{{appid}}_sup]},
+	{applications, [
+		kernel,
+		stdlib,
+		cowboy
+	]},
+	{mod, { {{appid}}, []}},
+	{env, [
+		{port, 8080}
+	]}
+]}.

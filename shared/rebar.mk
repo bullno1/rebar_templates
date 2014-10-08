@@ -22,14 +22,12 @@ export RELX
 .PHONY: rebar-all rebar-compile rebar-clean rebar-test \
         rebar-get-deps rebar-release dialyzer
 
-DEFAULT+=rebar-all
+DEFAULT+=rebar-compile
 CLEAN+=rebar-clean
 TEST+=rebar-test
 GET_DEPS+=rebar-get-deps
 RELEASE+=rebar-release
 TEST+=rebar-test
-
-rebar-all: rebar-compile
 
 rebar-get-deps: $(REBAR) .build/erlang_deps
 
