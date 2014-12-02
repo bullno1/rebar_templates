@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
+var less = require('gulp-less');
 var watchify = require('watchify');
 var sourcemaps = require('gulp-sourcemaps');
 var buffer = require('vinyl-buffer');
@@ -11,10 +12,10 @@ var del = require('del');
 var package = require("./package.json");
 var vendor = Object.keys(package.dependencies);
 
-gulp.task("default", ["browserify-nowatch"]);
-gulp.task("watch", ["browserify-watch"]);
+gulp.task("default", ["browserify-nowatch", "less"]);
+gulp.task("watch", ["browserify-watch", "less-watch"]);
 gulp.task("clean", function(cb) {
-	del(["priv/www/js"], cb);
+	del(["priv/www/js", "priv/www/css"], cb);
 });
 
 gulp.task("browserify-watch", ["browserify-vendor"], function() {
@@ -32,6 +33,20 @@ gulp.task("browserify-vendor", function() {
 	});
 	vendor.forEach(b.require.bind(b));
 	return writeBundle(b, "vendor.js");
+});
+
+gulp.task("less", function() {
+	gulp
+		.src("./less_src/*.less")
+		//.pipe(sourcemaps.init({loadMaps:true}))
+		.pipe(less({compress: true}))
+		.on("error", function(e) { gutil.log("less:", e.message); })
+		//.pipe(sourcemaps.write("./"))
+		.pipe(gulp.dest("priv/www/css"));
+});
+
+gulp.task("less-watch", function() {
+	gulp.watch("less_src/*.less", ["less"]);
 });
 
 function bundleApp(watch) {

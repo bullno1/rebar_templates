@@ -8,7 +8,7 @@ start(_StartType, _StartArgs) ->
 		{'_', routes()}
 	]),
 	Port = application:get_env({{appid}}, port, 8080),
-	cowboy:start_http({{appid}}, 100, [{port, Port}], [{env, [{dispatch, Dispatch}]}]),
+	_ = cowboy:start_http({{appid}}, 100, [{port, Port}], [{env, [{dispatch, Dispatch}]}]),
 	{{appid}}_sup:start_link().
 
 stop(_State) ->
