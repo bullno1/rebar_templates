@@ -7,6 +7,7 @@
 {file, "shared/gitignore", ".gitignore"}.
 {file, "shared/rebar.config", "rebar.config"}.
 {file, "shared/shell.sh", "shell.sh"}.
+{file, "shared/sys.config", "sys.config"}.
 {template, "active-app/myapp.app.src", "src/{{appid}}.app.src"}.
 {template, "active-app/myapp.erl", "src/{{appid}}.erl"}.
 {template, "active-app/myapp_sup.erl", "src/{{appid}}_sup.erl"}.

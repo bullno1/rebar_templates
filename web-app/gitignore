@@ -2,6 +2,7 @@
 /.eunit
 /.rebar
 /.project_plt
+/test/*.beam
 /deps
 /ebin
 /erl_crash.dump

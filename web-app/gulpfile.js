@@ -8,7 +8,9 @@ var watchify = require('watchify');
 var sourcemaps = require('gulp-sourcemaps');
 var buffer = require('vinyl-buffer');
 var del = require('del');
+var exec = require('child_process').exec;
 
+//include all dependencies in the vendor bundle
 var package = require("./package.json");
 var vendor = Object.keys(package.dependencies);
 
@@ -27,7 +29,7 @@ gulp.task("browserify-nowatch", ["browserify-vendor"], function() {
 });
 
 gulp.task("browserify-vendor", function() {
-	b = browserify({
+	var b = browserify({
 		debug: true,
 		noparse: vendor,
 	});
@@ -38,10 +40,11 @@ gulp.task("browserify-vendor", function() {
 gulp.task("less", function() {
 	gulp
 		.src("./less_src/*.less")
-		//.pipe(sourcemaps.init({loadMaps:true}))
-		.pipe(less({compress: true}))
+		.pipe(less({
+			compress: true,
+			strictMath: true
+		}))
 		.on("error", function(e) { gutil.log("less:", e.message); })
-		//.pipe(sourcemaps.write("./"))
 		.pipe(gulp.dest("priv/www/css"));
 });
 
@@ -55,6 +58,7 @@ function bundleApp(watch) {
 		noparse: vendor,
 		cache: {},
 		packageCache: {},
+		transform: ["brfs", "strictify"],
 		fullPaths: true
 	});
 
@@ -71,13 +75,19 @@ function bundleApp(watch) {
 
 	vendor.forEach(b.external.bind(b));
 
-	return writeBundle(b, bundleName);
+	return writeBundle(b, bundleName, !watch);
 }
 
-function writeBundle(b, name) {
+function writeBundle(b, name, exitOnError) {
 	return b
 		.bundle()
-		.on("error", function(e) { gutil.log("Browserify:", e.message); this.end(); })
+		.on("error", function(e) {
+			gutil.log("Browserify:", e.message);
+			this.end();
+			if(exitOnError) {
+				process.exit(1);
+			}
+		})
 		.pipe(source(name))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({loadMaps:true}))

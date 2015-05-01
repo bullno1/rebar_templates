@@ -8,8 +8,16 @@ start(_StartType, _StartArgs) ->
 		{'_', routes()}
 	]),
 	Port = application:get_env({{appid}}, port, 8080),
-	_ = cowboy:start_http({{appid}}, 100, [{port, Port}], [{env, [{dispatch, Dispatch}]}]),
-	{{appid}}_sup:start_link().
+	CowboyOpts = [
+		{env, [{dispatch, Dispatch}]},
+		{compress, true}
+	],
+	case cowboy:start_http({{appid}}, 100, [{port, Port}], CowboyOpts) of
+		{ok, _} ->
+			bag_sup:start_link();
+		{error, _} = Err ->
+			Err
+	end.
 
 stop(_State) ->
 	ok.

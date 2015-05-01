@@ -33,6 +33,7 @@ rebar-get-deps: $(REBAR) .build/erlang_deps
 
 .build/erlang_deps: rebar.config
 	$(REBAR) get-deps
+	$(REBAR) update-deps
 	@mkdir -p .build
 	@touch .build/erlang_deps
 
@@ -42,11 +43,12 @@ rebar-compile: rebar-get-deps $(REBAR)
 rebar-release: rebar-compile $(RELX)
 	$(RELX) $(RELX_OPTS)
 
-eunit: rebar-compile clean-common-test-data
+eunit: rebar-compile
 	$(REBAR) skip_deps=true eunit
 
-ct: rebar-compile clean-common-test-data
-	$(REBAR) skip_deps=true ct
+ct: rebar-compile
+	@mkdir -p log
+	@ct_run -cover cover.spec -pa `pwd`/ebin `pwd`/deps/*/ebin -no_shell -dir test -logdir log -ct_hooks cth_log_redirect -erl_args -config sys.config
 
 rebar-test: rebar-compile eunit ct
 
@@ -55,11 +57,15 @@ define download
 	chmod +x $(1)
 endef
 
-$(REBAR):
-	@$(call download,$(REBAR),$(REBAR_URL))
+MAKEFILES:=$(firstword $(MAKEFILE_LIST)) $(lastword $(MAKEFILE_LIST))
 
-$(RELX):
+$(REBAR): $(MAKEFILES)
+	@$(call download,$(REBAR),$(REBAR_URL))
+	touch $(REBAR)
+
+$(RELX): $(MAKEFILES)
 	@$(call download,$(RELX),$(RELX_URL))
+	touch $(RELX)
 
 $(PROJECT_PLT):
 	@echo Building local plt at $(PROJECT_PLT)
@@ -70,8 +76,9 @@ $(PROJECT_PLT):
 dialyzer: rebar-compile $(PROJECT_PLT)
 	dialyzer --plt $(PROJECT_PLT) \
 	         --fullpath \
+	         -I deps \
 	         $(DIALYZER_OPTS) \
 	         --src -r src
 
-rebar-clean:
+rebar-clean: $(REBAR)
 	$(REBAR) clean

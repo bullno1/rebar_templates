@@ -11,10 +11,10 @@ all: $(DEFAULT)
 
 compile: $(COMPILE)
 
-test: $(TEST)
+test: compile $(TEST)
 
 clean: $(CLEAN)
 
 get-deps: $(GET_DEPS)
 
-release: $(RELEASE)
+release: compile $(RELEASE)

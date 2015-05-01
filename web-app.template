@@ -7,6 +7,7 @@
 {file, "shared/shell.sh", "shell.sh"}.
 {file, "web-app/gitignore", ".gitignore"}.
 {file, "web-app/rebar.config", "rebar.config"}.
+{file, "web-app/sys.config", "sys.config"}.
 {file, "web-app/gulpfile.js", "gulpfile.js"}.
 {file, "web-app/main.js", "js_src/main.js"}.
 {file, "web-app/web.mk", "make/web.mk"}.
